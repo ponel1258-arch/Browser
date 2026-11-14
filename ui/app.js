@@ -1,0 +1,44 @@
+'use strict';
+const $ = id => document.getElementById(id);
+const send = (action, value) => window.ipc.postMessage(JSON.stringify({ action, value }));
+let state = { tabs: [], active: null, home: true, url: '' };
+let editing = false;
+$('theme').onclick = () => send('toggle_theme');
+$('new-tab').onclick = () => send('new_tab');
+$('home').onclick = () => send('home');
+$('saver').onclick = () => send('toggle_saver');
+$('sleep').onclick = () => send('sleep_tabs');
+$('back').onclick = () => send('back');
+$('forward').onclick = () => send('forward');
+$('reload').onclick = () => send('reload');
+$('address').addEventListener('focus', () => { editing = true; $('address').select(); });
+$('address').addEventListener('blur', () => { editing = false; $('address').value = state.url || ''; });
+$('address-form').addEventListener('submit', event => { event.preventDefault(); const value = $('address').value; send('navigate', value); $('address').blur(); });
+$('search-form').addEventListener('submit', event => { event.preventDefault(); if ($('search').value.trim()) send('navigate', $('search').value); });
+document.querySelectorAll('[data-url]').forEach(button => button.addEventListener('click', () => send('navigate', button.dataset.url)));
+document.addEventListener('keydown', event => {
+  if (!(event.ctrlKey || event.metaKey)) return;
+  const action = { t: 'new_tab', w: 'close_active', l: 'focus', r: 'reload' }[event.key.toLowerCase()];
+  if (!action) return; event.preventDefault(); if (action === 'focus') $('address').focus(); else send(action);
+});
+window.renderBrowser = next => {
+  state = next;
+  document.documentElement.dataset.theme = state.light_theme ? 'light' : 'dark';
+  $('theme').title = state.light_theme ? 'Тёмная тема' : 'Светлая тема';
+  $('theme').setAttribute('aria-label', $('theme').title);
+  $('tabs').replaceChildren(...state.tabs.map(tab => {
+    const item = document.createElement('div'); item.className = `tab${tab.id === state.active ? ' active' : ''}`;
+    const select = document.createElement('button'); select.className = 'tab-select'; select.setAttribute('role', 'tab'); select.setAttribute('aria-selected', String(tab.id === state.active));
+    const mark = document.createElement('span'); mark.className = 'tab-mark'; mark.setAttribute('aria-hidden', 'true');
+    const title = document.createElement('span'); title.className = 'tab-title'; title.textContent = `${tab.title || 'Новая вкладка'}${tab.sleeping ? ' · z' : ''}`;
+    select.append(mark, title); select.onclick = () => send('select_tab', tab.id);
+    const close = document.createElement('button'); close.className = 'tab-close'; close.textContent = '×'; close.setAttribute('aria-label', `Закрыть вкладку ${tab.title}`); close.onclick = () => send('close_tab', tab.id);
+    item.append(select, close); return item;
+  }));
+  $('start').hidden = !state.home;
+  $('saver').setAttribute('aria-pressed', String(state.memory_saver));
+  $('saver').title = state.memory_saver ? 'Автоусыпление включено: выключить' : 'Автоусыпление выключено: включить';
+  $('back').disabled = !state.can_back; $('forward').disabled = !state.can_forward;
+  if (!editing) $('address').value = state.url || '';
+};
+send('ready');

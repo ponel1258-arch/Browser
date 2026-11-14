@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="ru">
+<head><meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; script-src 'unsafe-inline'; img-src data:; form-action 'none'; frame-src 'none'"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Luma</title><style>/*LUMA_STYLES*/</style></head>
+<body>
+  <header class="browser">
+    <div class="tabs-row"><div id="tabs" role="tablist" aria-label="Вкладки"></div><button id="new-tab" class="icon new-tab" title="Новая вкладка (Ctrl+T)" aria-label="Новая вкладка">+</button></div>
+    <div class="toolbar">
+      <button id="back" class="icon" title="Назад" aria-label="Назад"><svg viewBox="0 0 24 24"><path d="M15 5 8 12l7 7M9 12h11"/></svg></button>
+      <button id="forward" class="icon" title="Вперёд" aria-label="Вперёд"><svg viewBox="0 0 24 24"><path d="m9 5 7 7-7 7M15 12H4"/></svg></button>
+      <button id="reload" class="icon" title="Обновить" aria-label="Обновить"><svg viewBox="0 0 24 24"><path d="M19 8a8 8 0 1 0 1 4M19 4v4h-4"/></svg></button>
+      <form id="address-form" class="address"><svg viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m15.5 15.5 4 4"/></svg><input id="address" aria-label="Поиск или адрес" placeholder="Поиск в Google или адрес сайта" spellcheck="false" autocomplete="off"></form>
+      <button id="saver" class="icon saver" title="Автоусыпление вкладок" aria-label="Автоусыпление вкладок" aria-pressed="true">◐</button>
+      <button id="sleep" class="icon sleep" title="Усыпить неактивные вкладки" aria-label="Усыпить неактивные вкладки">zᶻ</button>
+      <button id="home" class="icon" title="Новая вкладка" aria-label="Новая вкладка"><svg viewBox="0 0 24 24"><path d="m3 10 9-7 9 7M5 9v11h14V9M9 20v-6h6v6"/></svg></button>
+    </div>
+  </header>
+  <main id="start" class="start">
+    <button id="theme" class="theme-toggle" aria-label="Сменить тему" title="Сменить тему">☼</button>
+    <div class="search-area">
+      <div class="google" aria-label="Google"><span>G</span><span>o</span><span>o</span><span>g</span><span>l</span><span>e</span></div>
+      <form id="search-form" class="search"><svg viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m15.5 15.5 4 4"/></svg><input id="search" aria-label="Поиск в Google" placeholder="Поиск в Google" autocomplete="off"><button aria-label="Искать" type="submit">↵</button></form>
+      <nav class="shortcuts" aria-label="Быстрый доступ">
+        <button data-url="https://www.youtube.com"><span class="symbol youtube">▶</span>YouTube</button>
+        <button data-url="https://www.google.com"><span class="symbol google-icon">G</span>Google</button>
+        <button data-url="https://github.com"><span class="symbol github">⌘</span>GitHub</button>
+        <button data-url="https://ru.wikipedia.org"><span class="symbol wiki">W</span>Wikipedia</button>
+      </nav>
+    </div>
+  </main>
+  <script>/*LUMA_SCRIPT*/</script>
+</body>
+</html>
